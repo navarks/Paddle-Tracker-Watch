@@ -1,0 +1,34 @@
+
+Showing Recent Issues
+
+Prepare build
+error: Multiple commands produce '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App'
+    note: Target 'PlatformTennisScorer Watch App' (project 'PlatformTennisScorer'): CopyAndPreserveArchs /Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App
+    note: Target 'PlatformTennisScorer Watch App' (project 'PlatformTennisScorer') has link command with output '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App'
+
+
+Multiple commands produce '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App'
+
+
+Build target PlatformTennisScorer Watch App of project PlatformTennisScorer with configuration Debug
+warning: duplicate output file '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App' on task: Ld /Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App normal (in target 'PlatformTennisScorer Watch App' from project 'PlatformTennisScorer')
+
+
+duplicate output file '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App' on task: Ld /Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App normal
+
+
+
+Build failed    1/24/26, 9:52 PM    0.1 seconds
+
+Showing Recent Issues
+Prepare packages
+Prepare build
+Multiple commands produce '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App'
+
+Build target PlatformTennisScorer Watch App
+duplicate output file '/Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App' on task: Ld /Users/navarks/Library/Developer/Xcode/DerivedData/PlatformTennisScorer-dvlbotgwbclvneeoyvepewrznzug/Build/Products/Debug-watchsimulator/PlatformTennisScorer Watch App.app/PlatformTennisScorer Watch App normal
+
+
+
+Activity Log Complete    1/24/26, 9:51 PM    0.4 seconds
+
