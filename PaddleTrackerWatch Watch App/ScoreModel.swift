@@ -56,7 +56,9 @@ final class ScoreModel: ObservableObject {
     }
 
     func point(to player: Player) {
-        guard !matchOver else { return }
+        if matchOver {
+            matchOver = false
+        }
         pushHistory()
         switch player {
         case .a:
