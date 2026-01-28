@@ -7,13 +7,14 @@ struct ContentView: View {
     @State private var crownSelection: Int = 0
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             header
             scoreRow
             gameSetRow
             actions
         }
         .padding(.vertical, 6)
+        .padding(.horizontal, 2)
         .focusable(true)
         .digitalCrownRotation(
             $crownValue,
@@ -52,71 +53,97 @@ struct ContentView: View {
     }
 
     private var header: some View {
-        HStack {
-            Text(model.playerAName)
-                .font(.caption)
-                .foregroundStyle(crownSelection == 0 ? .primary : .secondary)
-            Spacer()
-            Text(model.playerBName)
-                .font(.caption)
-                .foregroundStyle(crownSelection == 1 ? .primary : .secondary)
+        HStack(alignment: .center, spacing: 8) {
+            playerName(label: model.playerAName, isSelected: crownSelection == 0, isServer: model.server == .a)
+            Spacer(minLength: 6)
+            Text("VS")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            Spacer(minLength: 6)
+            playerName(label: model.playerBName, isSelected: crownSelection == 1, isServer: model.server == .b)
         }
         .lineLimit(1)
     }
 
     private var scoreRow: some View {
         HStack {
-            scoreChip(label: model.pointLabelA, highlighted: crownSelection == 0)
+            scoreChip(label: model.pointLabelA, highlighted: crownSelection == 0, isServer: model.server == .a)
             Spacer()
-            scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1)
+            scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1, isServer: model.server == .b)
         }
     }
 
     private var gameSetRow: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Games")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                Text("\(model.gamesA)-\(model.gamesB)")
-                    .font(.headline)
-            }
+            metricBlock(title: "Games", value: "\(model.gamesA)-\(model.gamesB)")
             Spacer()
-            VStack(alignment: .trailing, spacing: 2) {
-                Text("Sets")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                Text("\(model.setsA)-\(model.setsB)")
-                    .font(.headline)
-            }
+            metricBlock(title: "Sets", value: "\(model.setsA)-\(model.setsB)")
         }
     }
 
     private var actions: some View {
         HStack(spacing: 8) {
-            Button("Point A") {
-                model.point(to: .a)
-            }
-            .buttonStyle(.bordered)
-            .tint(crownSelection == 0 ? .blue : .gray)
-
-            Button("Point B") {
-                model.point(to: .b)
-            }
-            .buttonStyle(.bordered)
-            .tint(crownSelection == 1 ? .blue : .gray)
+            actionButton(title: "+ A", player: .a, isSelected: crownSelection == 0)
+            actionButton(title: "+ B", player: .b, isSelected: crownSelection == 1)
         }
         .font(.footnote)
     }
 
-    private func scoreChip(label: String, highlighted: Bool) -> some View {
+    private func scoreChip(label: String, highlighted: Bool, isServer: Bool) -> some View {
         Text(label)
-            .font(.title3)
-            .frame(width: 48, height: 32)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(highlighted ? Color.blue.opacity(0.2) : Color.gray.opacity(0.15))
+            .font(.system(size: 20, weight: .semibold, design: .rounded))
+            .frame(width: 54, height: 36)
+            .background(scoreChipBackground(highlighted: highlighted, isServer: isServer))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isServer ? Color.blue.opacity(0.5) : Color.clear, lineWidth: 1)
             )
+    }
+
+    private func scoreChipBackground(highlighted: Bool, isServer: Bool) -> some ShapeStyle {
+        let base = highlighted ? Color.blue.opacity(0.25) : Color.gray.opacity(0.18)
+        if isServer {
+            return AnyShapeStyle(
+                LinearGradient(
+                    colors: [base, Color.blue.opacity(0.3)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+        }
+        return AnyShapeStyle(base)
+    }
+
+    private func metricBlock(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title.uppercased())
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .tracking(0.6)
+            Text(value)
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
+        }
+    }
+
+    private func actionButton(title: String, player: ScoreModel.Player, isSelected: Bool) -> some View {
+        Button(title) {
+            model.point(to: player)
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(isSelected ? .blue : .gray)
+    }
+
+    private func playerName(label: String, isSelected: Bool, isServer: Bool) -> some View {
+        HStack(spacing: 4) {
+            if isServer {
+                Circle()
+                    .fill(Color.blue)
+                    .frame(width: 6, height: 6)
+            }
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(isSelected ? .primary : .secondary)
+        }
     }
 }
 

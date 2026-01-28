@@ -26,6 +26,9 @@ final class ScoreModel: ObservableObject {
     @Published var setsB: Int = 0 {
         didSet { persist() }
     }
+    @Published var server: Player = .a {
+        didSet { persist() }
+    }
     @Published var matchOver: Bool = false {
         didSet { persist() }
     }
@@ -48,6 +51,7 @@ final class ScoreModel: ObservableObject {
         var gamesB: Int
         var setsA: Int
         var setsB: Int
+        var server: Player
         var matchOver: Bool
     }
 
@@ -71,6 +75,7 @@ final class ScoreModel: ObservableObject {
         gamesB = last.gamesB
         setsA = last.setsA
         setsB = last.setsB
+        server = last.server
         matchOver = last.matchOver
     }
 
@@ -81,13 +86,22 @@ final class ScoreModel: ObservableObject {
         gamesB = 0
         setsA = 0
         setsB = 0
+        server = .a
         matchOver = false
         history = []
     }
 
-    enum Player {
+    enum Player: String, Codable {
         case a
         case b
+    }
+
+    func setServer(_ player: Player) {
+        server = player
+    }
+
+    func toggleServer() {
+        server = server == .a ? .b : .a
     }
 
     var pointLabelA: String {
@@ -133,6 +147,7 @@ final class ScoreModel: ObservableObject {
         case .b:
             gamesB += 1
         }
+        toggleServer()
         resolveGame()
     }
 
@@ -173,6 +188,7 @@ final class ScoreModel: ObservableObject {
             gamesB: gamesB,
             setsA: setsA,
             setsB: setsB,
+            server: server,
             matchOver: matchOver
         )
         history.append(snapshot)
@@ -191,6 +207,7 @@ final class ScoreModel: ObservableObject {
             gamesB: gamesB,
             setsA: setsA,
             setsB: setsB,
+            server: server,
             matchOver: matchOver,
             history: history
         )
@@ -211,6 +228,7 @@ final class ScoreModel: ObservableObject {
         gamesB = state.gamesB
         setsA = state.setsA
         setsB = state.setsB
+        server = state.server
         matchOver = state.matchOver
         history = state.history
     }
@@ -224,6 +242,7 @@ final class ScoreModel: ObservableObject {
         var gamesB: Int
         var setsA: Int
         var setsB: Int
+        var server: Player
         var matchOver: Bool
         var history: [Snapshot]
     }
