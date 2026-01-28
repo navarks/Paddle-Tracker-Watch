@@ -36,7 +36,7 @@ final class ScoreModel: ObservableObject {
         didSet { persist() }
     }
 
-    private let maxSetsToWin = 2
+    private let maxSetsToWin = 6
     private let gamesToWinSet = 6
     private let storageKey = "tennisScoreState"
 
@@ -176,8 +176,20 @@ final class ScoreModel: ObservableObject {
 
     private func resolveMatch() {
         if setsA >= maxSetsToWin || setsB >= maxSetsToWin {
-            matchOver = true
+            startNewMatchCycle()
         }
+    }
+
+    private func startNewMatchCycle() {
+        pointA = 0
+        pointB = 0
+        gamesA = 0
+        gamesB = 0
+        setsA = 0
+        setsB = 0
+        server = .a
+        matchOver = false
+        history = []
     }
 
     private func pushHistory() {

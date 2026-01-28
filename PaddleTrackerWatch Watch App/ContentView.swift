@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var showingResetConfirm = false
     @State private var crownValue: Double = 0
     @State private var crownSelection: Int = 0
+    @State private var showSettings = false
 
     var body: some View {
         VStack(spacing: 6) {
@@ -12,6 +13,7 @@ struct ContentView: View {
             scoreRow
             gameSetRow
             actions
+            settings
         }
         .padding(.vertical, 4)
         .padding(.horizontal, 4)
@@ -89,6 +91,24 @@ struct ContentView: View {
         .font(.footnote)
     }
 
+    private var settings: some View {
+        DisclosureGroup(isExpanded: $showSettings) {
+            VStack(alignment: .leading, spacing: 4) {
+                settingsRow(title: "Match length", value: "First to 6")
+                settingsRow(title: "Serve", value: "Auto")
+                settingsRow(title: "Names", value: "Edit")
+            }
+            .padding(.top, 4)
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "gearshape")
+                Text("Settings")
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+    }
+
     private func scoreChip(label: String, highlighted: Bool, isServer: Bool) -> some View {
         Text(label)
             .font(.system(size: 19, weight: .semibold))
@@ -123,6 +143,17 @@ struct ContentView: View {
         }
         .buttonStyle(.borderedProminent)
         .tint(isSelected ? .accentColor : .gray)
+    }
+
+    private func settingsRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            Spacer()
+            Text(value)
+                .font(.caption2)
+        }
     }
 
     private func playerName(label: String, isSelected: Bool, isServer: Bool) -> some View {
