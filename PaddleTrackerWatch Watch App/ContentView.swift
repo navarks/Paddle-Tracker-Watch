@@ -10,10 +10,8 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 6) {
-                header
                 scoreRow
-                gameSetRow
-                actions
+                gamesRow
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
@@ -65,24 +63,23 @@ struct ContentView: View {
         }
     }
 
-    private var header: some View {
-        HStack(alignment: .center, spacing: 8) {
-            playerName(label: model.playerAName, isSelected: crownSelection == 0, isServer: model.server == .a)
-            Spacer(minLength: 6)
-            Text("VS")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            Spacer(minLength: 6)
-            playerName(label: model.playerBName, isSelected: crownSelection == 1, isServer: model.server == .b)
-        }
-        .lineLimit(1)
-    }
-
     private var scoreRow: some View {
         HStack {
-            scoreChip(label: model.pointLabelA, highlighted: crownSelection == 0, isServer: model.server == .a)
+            Button {
+                model.point(to: .a)
+            } label: {
+                scoreChip(label: model.pointLabelA, highlighted: crownSelection == 0, isServer: model.server == .a)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.plain)
             Spacer()
-            scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1, isServer: model.server == .b)
+            Button {
+                model.point(to: .b)
+            } label: {
+                scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1, isServer: model.server == .b)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.plain)
         }
         .focusable(true)
         .digitalCrownRotation(
@@ -99,20 +96,12 @@ struct ContentView: View {
         }
     }
 
-    private var gameSetRow: some View {
-        HStack {
-            metricBlock(title: "Games", value: "\(model.gamesA)-\(model.gamesB)")
-            Spacer()
-            metricBlock(title: "Sets", value: "\(model.setsA)-\(model.setsB)")
-        }
-    }
-
-    private var actions: some View {
-        HStack(spacing: 8) {
-            actionButton(title: "+ A", player: .a, isSelected: crownSelection == 0)
-            actionButton(title: "+ B", player: .b, isSelected: crownSelection == 1)
-        }
-        .font(.footnote)
+    private var gamesRow: some View {
+        Text("GAMES \(model.gamesA)-\(model.gamesB)")
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .tracking(0.8)
+            .frame(maxWidth: .infinity)
     }
 
     private var settingsOverlay: some View {
@@ -177,25 +166,6 @@ struct ContentView: View {
         return AnyShapeStyle(base)
     }
 
-    private func metricBlock(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(title.uppercased())
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .tracking(0.6)
-            Text(value)
-                .font(.system(size: 15, weight: .semibold))
-        }
-    }
-
-    private func actionButton(title: String, player: ScoreModel.Player, isSelected: Bool) -> some View {
-        Button(title) {
-            model.point(to: player)
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(isSelected ? .accentColor : .gray)
-    }
-
     private func settingsRow(title: String, value: String) -> some View {
         HStack {
             Text(title)
@@ -207,18 +177,7 @@ struct ContentView: View {
         }
     }
 
-    private func playerName(label: String, isSelected: Bool, isServer: Bool) -> some View {
-        HStack(spacing: 4) {
-            if isServer {
-                Circle()
-                    .fill(Color.accentColor)
-                    .frame(width: 6, height: 6)
-            }
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(isSelected ? .primary : .secondary)
-        }
-    }
+    
 }
 
 #Preview {
