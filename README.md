@@ -3,7 +3,7 @@
 Starter watchOS (SwiftUI) tennis score tracker.
 
 ## How to run
-1. Open `PaddleTrackerWatch/PaddleTrackerWatch.xcodeproj` in Xcode.
+1. Open `PaddleTrackerWatch.xcodeproj` in Xcode.
 2. Select the watch target and build/run on a simulator or device.
 
 ## Open in Xcode (GitHub)
