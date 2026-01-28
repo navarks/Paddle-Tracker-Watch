@@ -12,8 +12,8 @@ struct ContentView: View {
             VStack(spacing: 6) {
                 scoreRow
             }
-            .padding(.vertical, 4)
-            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
+            .padding(.horizontal, 0)
             .allowsHitTesting(!showSettings)
 
             if showSettings {
@@ -68,49 +68,49 @@ struct ContentView: View {
                 model.point(to: .a)
             } label: {
                 ZStack {
-                    Color(red: 0.16, green: 0.52, blue: 0.32)
+                    RoundedRectangle(cornerRadius: 0)
+                        .fill(Color(red: 0.62, green: 0.84, blue: 0.97))
+                    RoundedRectangle(cornerRadius: 0)
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.2)
                     Text(model.pointLabelA)
-                        .font(.system(size: 44, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .font(.system(size: 46, weight: .semibold))
+                        .foregroundStyle(Color.black.opacity(0.8))
                         .minimumScaleFactor(0.6)
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.white.opacity(crownSelection == 0 ? 0.5 : 0.12), lineWidth: crownSelection == 0 ? 2 : 1)
-                )
             }
             .buttonStyle(.plain)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             ZStack {
                 Rectangle()
-                    .fill(Color.black.opacity(0.18))
-                    .frame(height: 22)
+                    .fill(Color.black.opacity(0.08))
+                    .frame(height: 24)
                 Text("\(model.gamesA)-\(model.gamesB)")
                     .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .tracking(0.6)
+                    .foregroundStyle(Color.black.opacity(0.5))
+                    .tracking(1.0)
             }
 
             Button {
                 model.point(to: .b)
             } label: {
                 ZStack {
-                    Color(red: 0.14, green: 0.24, blue: 0.54)
+                    RoundedRectangle(cornerRadius: 0)
+                        .fill(Color(red: 0.83, green: 0.90, blue: 0.78))
+                    RoundedRectangle(cornerRadius: 0)
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.2)
                     Text(model.pointLabelB)
-                        .font(.system(size: 44, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .font(.system(size: 46, weight: .semibold))
+                        .foregroundStyle(Color.black.opacity(0.8))
                         .minimumScaleFactor(0.6)
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.white.opacity(crownSelection == 1 ? 0.5 : 0.12), lineWidth: crownSelection == 1 ? 2 : 1)
-                )
             }
             .buttonStyle(.plain)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
         .focusable(true)
         .digitalCrownRotation(
             $crownValue,
