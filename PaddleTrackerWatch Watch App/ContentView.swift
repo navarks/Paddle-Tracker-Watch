@@ -8,34 +8,44 @@ struct ContentView: View {
     @State private var showSettings = false
 
     var body: some View {
-        VStack(spacing: 6) {
-            header
-            scoreRow
-            gameSetRow
-            actions
-            settings
+        ZStack(alignment: .top) {
+            VStack(spacing: 6) {
+                header
+                scoreRow
+                gameSetRow
+                actions
+            }
+            .padding(.vertical, 4)
+            .padding(.horizontal, 4)
+            .allowsHitTesting(!showSettings)
+            .gesture(
+                DragGesture(minimumDistance: 20)
+                    .onEnded { value in
+                        if value.translation.height > 20 {
+                            showSettings = true
+                        }
+                    }
+            )
+
+            if showSettings {
+                settingsOverlay
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
         }
-        .padding(.vertical, 4)
-        .padding(.horizontal, 4)
-        .focusable(true)
-        .digitalCrownRotation(
-            $crownValue,
-            from: 0,
-            through: 1,
-            by: 1,
-            sensitivity: .low,
-            isContinuous: false,
-            isHapticFeedbackEnabled: true
-        )
-        .onChange(of: crownValue) { _, newValue in
-            crownSelection = newValue > 0.5 ? 1 : 0
-        }
+        .animation(.spring(response: 0.32, dampingFraction: 0.86), value: showSettings)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("Undo") {
                     model.undo()
                 }
                 .disabled(model.history.isEmpty)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showSettings = true
+                } label: {
+                    Image(systemName: "gearshape")
+                }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Reset") {
@@ -73,6 +83,19 @@ struct ContentView: View {
             Spacer()
             scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1, isServer: model.server == .b)
         }
+        .focusable(true)
+        .digitalCrownRotation(
+            $crownValue,
+            from: 0,
+            through: 1,
+            by: 1,
+            sensitivity: .low,
+            isContinuous: false,
+            isHapticFeedbackEnabled: true
+        )
+        .onChange(of: crownValue) { _, newValue in
+            crownSelection = newValue > 0.5 ? 1 : 0
+        }
     }
 
     private var gameSetRow: some View {
@@ -91,31 +114,48 @@ struct ContentView: View {
         .font(.footnote)
     }
 
-    private var settings: some View {
-        VStack(spacing: 4) {
-            Button {
-                showSettings.toggle()
-            } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
-                    Spacer()
-                    Image(systemName: showSettings ? "chevron.down" : "chevron.right")
-                        .font(.caption2)
+    private var settingsOverlay: some View {
+        ZStack(alignment: .top) {
+            Color.black.opacity(0.35)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    showSettings = false
                 }
-            }
-            .buttonStyle(.plain)
-            .font(.caption)
-            .foregroundStyle(.secondary)
 
-            if showSettings {
-                VStack(alignment: .leading, spacing: 4) {
-                    settingsRow(title: "Match length", value: "First to 6")
-                    settingsRow(title: "Serve", value: "Auto")
-                    settingsRow(title: "Names", value: "Edit")
+            VStack(spacing: 8) {
+                HStack {
+                    Text("Settings")
+                        .font(.headline)
+                    Spacer()
+                    Button {
+                        showSettings = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .buttonStyle(.plain)
                 }
-                .padding(.top, 2)
+
+                settingsRow(title: "Match length", value: "First to 6")
+                settingsRow(title: "Serve", value: "Auto")
+                settingsRow(title: "Names", value: "Edit")
             }
+            .padding(12)
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
+            )
+            .padding(.top, 6)
+            .padding(.horizontal, 6)
+            .gesture(
+                DragGesture(minimumDistance: 10)
+                    .onEnded { value in
+                        if value.translation.height < -20 || value.translation.height > 60 {
+                            showSettings = false
+                        }
+                    }
+            )
         }
     }
 
