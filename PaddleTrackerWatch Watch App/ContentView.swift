@@ -18,7 +18,7 @@ struct ContentView: View {
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
             .allowsHitTesting(!showSettings)
-            .gesture(
+            .simultaneousGesture(
                 DragGesture(minimumDistance: 20)
                     .onEnded { value in
                         if value.translation.height > 20 {
