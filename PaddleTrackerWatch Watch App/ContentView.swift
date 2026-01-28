@@ -18,20 +18,21 @@ struct ContentView: View {
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
             .allowsHitTesting(!showSettings)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 20)
-                    .onEnded { value in
-                        if value.translation.height > 20 {
-                            showSettings = true
-                        }
-                    }
-            )
 
             if showSettings {
                 settingsOverlay
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
+        .contentShape(Rectangle())
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 20)
+                .onEnded { value in
+                    if value.translation.height > 20 {
+                        showSettings = true
+                    }
+                }
+        )
         .animation(.spring(response: 0.32, dampingFraction: 0.86), value: showSettings)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
