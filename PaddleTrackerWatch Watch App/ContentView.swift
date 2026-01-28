@@ -7,14 +7,14 @@ struct ContentView: View {
     @State private var crownSelection: Int = 0
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             header
             scoreRow
             gameSetRow
             actions
         }
-        .padding(.vertical, 6)
-        .padding(.horizontal, 2)
+        .padding(.vertical, 4)
+        .padding(.horizontal, 4)
         .focusable(true)
         .digitalCrownRotation(
             $crownValue,
@@ -91,24 +91,22 @@ struct ContentView: View {
 
     private func scoreChip(label: String, highlighted: Bool, isServer: Bool) -> some View {
         Text(label)
-            .font(.system(size: 20, weight: .semibold, design: .rounded))
-            .frame(width: 54, height: 36)
+            .font(.system(size: 19, weight: .semibold))
+            .frame(width: 52, height: 34)
             .background(scoreChipBackground(highlighted: highlighted, isServer: isServer))
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isServer ? Color.blue.opacity(0.5) : Color.clear, lineWidth: 1)
+                    .strokeBorder(isServer ? Color.accentColor.opacity(0.5) : Color.clear, lineWidth: 1)
             )
     }
 
     private func scoreChipBackground(highlighted: Bool, isServer: Bool) -> some ShapeStyle {
-        let base = highlighted ? Color.blue.opacity(0.25) : Color.gray.opacity(0.18)
+        let base = highlighted ? Color.accentColor.opacity(0.22) : Color.gray.opacity(0.14)
         if isServer {
             return AnyShapeStyle(
-                LinearGradient(
-                    colors: [base, Color.blue.opacity(0.3)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(base)
+                    .shadow(color: Color.accentColor.opacity(0.12), radius: 4, x: 0, y: 1)
             )
         }
         return AnyShapeStyle(base)
@@ -121,7 +119,7 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
                 .tracking(0.6)
             Text(value)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .font(.system(size: 15, weight: .semibold))
         }
     }
 
@@ -130,14 +128,14 @@ struct ContentView: View {
             model.point(to: player)
         }
         .buttonStyle(.borderedProminent)
-        .tint(isSelected ? .blue : .gray)
+        .tint(isSelected ? .accentColor : .gray)
     }
 
     private func playerName(label: String, isSelected: Bool, isServer: Bool) -> some View {
         HStack(spacing: 4) {
             if isServer {
                 Circle()
-                    .fill(Color.blue)
+                    .fill(Color.accentColor)
                     .frame(width: 6, height: 6)
             }
             Text(label)
