@@ -11,7 +11,6 @@ struct ContentView: View {
         ZStack(alignment: .top) {
             VStack(spacing: 6) {
                 scoreRow
-                gamesRow
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
@@ -64,23 +63,54 @@ struct ContentView: View {
     }
 
     private var scoreRow: some View {
-        HStack {
+        VStack(spacing: 0) {
             Button {
                 model.point(to: .a)
             } label: {
-                scoreChip(label: model.pointLabelA, highlighted: crownSelection == 0, isServer: model.server == .a)
-                    .frame(maxWidth: .infinity)
+                ZStack {
+                    Color(red: 0.16, green: 0.52, blue: 0.32)
+                    Text(model.pointLabelA)
+                        .font(.system(size: 44, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .minimumScaleFactor(0.6)
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(Color.white.opacity(crownSelection == 0 ? 0.5 : 0.12), lineWidth: crownSelection == 0 ? 2 : 1)
+                )
             }
             .buttonStyle(.plain)
-            Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            ZStack {
+                Rectangle()
+                    .fill(Color.black.opacity(0.18))
+                    .frame(height: 22)
+                Text("\(model.gamesA)-\(model.gamesB)")
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.8))
+                    .tracking(0.6)
+            }
+
             Button {
                 model.point(to: .b)
             } label: {
-                scoreChip(label: model.pointLabelB, highlighted: crownSelection == 1, isServer: model.server == .b)
-                    .frame(maxWidth: .infinity)
+                ZStack {
+                    Color(red: 0.14, green: 0.24, blue: 0.54)
+                    Text(model.pointLabelB)
+                        .font(.system(size: 44, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .minimumScaleFactor(0.6)
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(Color.white.opacity(crownSelection == 1 ? 0.5 : 0.12), lineWidth: crownSelection == 1 ? 2 : 1)
+                )
             }
             .buttonStyle(.plain)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
         .focusable(true)
         .digitalCrownRotation(
             $crownValue,
@@ -94,14 +124,6 @@ struct ContentView: View {
         .onChange(of: crownValue) { _, newValue in
             crownSelection = newValue > 0.5 ? 1 : 0
         }
-    }
-
-    private var gamesRow: some View {
-        Text("GAMES \(model.gamesA)-\(model.gamesB)")
-            .font(.caption2)
-            .foregroundStyle(.secondary)
-            .tracking(0.8)
-            .frame(maxWidth: .infinity)
     }
 
     private var settingsOverlay: some View {
@@ -147,23 +169,6 @@ struct ContentView: View {
                     }
             )
         }
-    }
-
-    private func scoreChip(label: String, highlighted: Bool, isServer: Bool) -> some View {
-        Text(label)
-            .font(.system(size: 19, weight: .semibold))
-            .frame(width: 52, height: 34)
-            .background(scoreChipBackground(highlighted: highlighted, isServer: isServer))
-            .shadow(color: isServer ? Color.accentColor.opacity(0.12) : Color.clear, radius: 4, x: 0, y: 1)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isServer ? Color.accentColor.opacity(0.5) : Color.clear, lineWidth: 1)
-            )
-    }
-
-    private func scoreChipBackground(highlighted: Bool, isServer: Bool) -> some ShapeStyle {
-        let base = highlighted ? Color.accentColor.opacity(0.22) : Color.gray.opacity(0.14)
-        return AnyShapeStyle(base)
     }
 
     private func settingsRow(title: String, value: String) -> some View {
