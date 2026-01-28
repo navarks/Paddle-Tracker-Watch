@@ -92,20 +92,30 @@ struct ContentView: View {
     }
 
     private var settings: some View {
-        DisclosureGroup(isExpanded: $showSettings) {
-            VStack(alignment: .leading, spacing: 4) {
-                settingsRow(title: "Match length", value: "First to 6")
-                settingsRow(title: "Serve", value: "Auto")
-                settingsRow(title: "Names", value: "Edit")
+        VStack(spacing: 4) {
+            Button {
+                showSettings.toggle()
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "gearshape")
+                    Text("Settings")
+                    Spacer()
+                    Image(systemName: showSettings ? "chevron.down" : "chevron.right")
+                        .font(.caption2)
+                }
             }
-            .padding(.top, 4)
-        } label: {
-            HStack(spacing: 6) {
-                Image(systemName: "gearshape")
-                Text("Settings")
-            }
+            .buttonStyle(.plain)
             .font(.caption)
             .foregroundStyle(.secondary)
+
+            if showSettings {
+                VStack(alignment: .leading, spacing: 4) {
+                    settingsRow(title: "Match length", value: "First to 6")
+                    settingsRow(title: "Serve", value: "Auto")
+                    settingsRow(title: "Names", value: "Edit")
+                }
+                .padding(.top, 2)
+            }
         }
     }
 
