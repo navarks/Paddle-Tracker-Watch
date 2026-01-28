@@ -94,6 +94,7 @@ struct ContentView: View {
             .font(.system(size: 19, weight: .semibold))
             .frame(width: 52, height: 34)
             .background(scoreChipBackground(highlighted: highlighted, isServer: isServer))
+            .shadow(color: isServer ? Color.accentColor.opacity(0.12) : Color.clear, radius: 4, x: 0, y: 1)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(isServer ? Color.accentColor.opacity(0.5) : Color.clear, lineWidth: 1)
@@ -102,13 +103,6 @@ struct ContentView: View {
 
     private func scoreChipBackground(highlighted: Bool, isServer: Bool) -> some ShapeStyle {
         let base = highlighted ? Color.accentColor.opacity(0.22) : Color.gray.opacity(0.14)
-        if isServer {
-            return AnyShapeStyle(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(base)
-                    .shadow(color: Color.accentColor.opacity(0.12), radius: 4, x: 0, y: 1)
-            )
-        }
         return AnyShapeStyle(base)
     }
 
