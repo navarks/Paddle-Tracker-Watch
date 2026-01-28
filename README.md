@@ -10,6 +10,11 @@ Starter watchOS (SwiftUI) tennis score tracker.
 3. Add `ScoreModel.swift` to the target.
 4. Build and run on a simulator or device.
 
+## Open in Xcode (GitHub)
+1. In GitHub, click the green **Code** button.
+2. Choose **Open with Xcode**.
+3. Xcode will clone and open the project.
+
 ## Features
 - Two-player tennis scoring (0, 15, 30, 40, AD)
 - Games, sets, and match win (best of 3)
