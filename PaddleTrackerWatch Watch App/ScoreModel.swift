@@ -41,7 +41,7 @@ final class ScoreModel: ObservableObject {
     private let storageKey = "tennisScoreState"
 
     init() {
-        restore()
+        reset()
     }
 
     struct Snapshot: Codable, Equatable {
